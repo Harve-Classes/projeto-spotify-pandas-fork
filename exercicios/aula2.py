@@ -25,8 +25,13 @@ def carregar_e_limpar(caminho_csv: str) -> pd.DataFrame:
       4) Remover duplicatas (drop_duplicates).
       5) Retornar o DataFrame limpo.
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao carregar_e_limpar ainda nao implementada (aula 2)")
+    df = pd.read_csv(caminho_csv, encoding='latin-1')
+
+    df['streams'] = pd.to_numeric(df['streams'], errors='coerce')
+    df = df.dropna(subset=['streams'])
+    df = df.drop_duplicates()
+    # df['released_year'] = df['released_year'].astype(str)
+    return df
 
 
 def inspecionar_coluna(df: pd.DataFrame, coluna: str):
@@ -36,8 +41,9 @@ def inspecionar_coluna(df: pd.DataFrame, coluna: str):
 
     Dica: use pd.api.types.is_numeric_dtype(df[coluna]).
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao inspecionar_coluna ainda nao implementada (aula 2)")
+    if pd.api.types.is_numeric_dtype(df[coluna]):
+        return df[coluna].describe()
+    return df[coluna].value_counts()
 
 
 def filtrar_por_artista(df: pd.DataFrame, artista: str) -> pd.DataFrame:
@@ -47,8 +53,7 @@ def filtrar_por_artista(df: pd.DataFrame, artista: str) -> pd.DataFrame:
 
     Dica: .str.contains(artista, case=False, na=False) na coluna 'artist(s)_name'.
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao filtrar_por_artista ainda nao implementada (aula 2)")
+    return df[df['artist(s)_name'].str.contains(artista, case=False, na=False)]
 
 
 def filtrar_hits(df: pd.DataFrame, ano_min: int, streams_min: int) -> pd.DataFrame:
@@ -57,8 +62,7 @@ def filtrar_hits(df: pd.DataFrame, ano_min: int, streams_min: int) -> pd.DataFra
 
     Dica: use parenteses ao redor de cada expressao e o operador & .
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao filtrar_hits ainda nao implementada (aula 2)")
+    return df[(df['released_year'].astype(int) >= ano_min) & (df['streams'] >= streams_min)]
 
 
 def criar_categoria_streams(df: pd.DataFrame) -> pd.DataFrame:
@@ -71,8 +75,20 @@ def criar_categoria_streams(df: pd.DataFrame) -> pd.DataFrame:
 
     NAO altere o df original (use df.copy()).
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao criar_categoria_streams ainda nao implementada (aula 2)")
+    df_novo = df.copy()
+
+    def categorizar(streams):
+        if streams >= 1_000_000_000:
+            return 'Super Hit'
+        elif streams >= 500_000_000:
+            return 'Hit'
+        elif streams >= 100_000_000:
+            return 'Medio'
+        else:
+            return 'Underground'
+
+    df_novo['categoria_streams'] = df_novo['streams'].apply(categorizar)
+    return df_novo
 
 
 def filtrar_por_modo(df: pd.DataFrame, modo: str) -> pd.DataFrame:
@@ -81,8 +97,7 @@ def filtrar_por_modo(df: pd.DataFrame, modo: str) -> pd.DataFrame:
 
     Dica: filtro simples df[df['mode'] == modo].
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao filtrar_por_modo ainda nao implementada (aula 2)")
+    return df[df['mode'] == modo]
 
 
 def filtrar_por_intervalo_ano(df: pd.DataFrame, ano_inicio: int, ano_fim: int) -> pd.DataFrame:
@@ -92,8 +107,8 @@ def filtrar_por_intervalo_ano(df: pd.DataFrame, ano_inicio: int, ano_fim: int) -
 
     Dica: pode usar .between(ano_inicio, ano_fim) ou um AND com >= e <=.
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao filtrar_por_intervalo_ano ainda nao implementada (aula 2)")
+    anos = df['released_year'].astype(int)
+    return df[anos.between(ano_inicio, ano_fim)]
 
 
 def filtrar_super_dancante_ou_super_energica(df: pd.DataFrame, limite: int = 85) -> pd.DataFrame:
@@ -104,8 +119,7 @@ def filtrar_super_dancante_ou_super_energica(df: pd.DataFrame, limite: int = 85)
     Dica: use o operador | (pipe) entre as expressoes, com parenteses ao
     redor de cada uma.
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao filtrar_super_dancante_ou_super_energica ainda nao implementada (aula 2)")
+    return df[(df['danceability_%'] >= limite) | (df['energy_%'] >= limite)]
 
 
 def contar_nulos_por_coluna(df: pd.DataFrame) -> pd.Series:
@@ -115,8 +129,7 @@ def contar_nulos_por_coluna(df: pd.DataFrame) -> pd.Series:
 
     Dica: df.isnull().sum().
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao contar_nulos_por_coluna ainda nao implementada (aula 2)")
+    return df.isnull().sum()
 
 
 def preencher_nulos_da_coluna(df: pd.DataFrame, coluna: str, valor) -> pd.DataFrame:
@@ -130,5 +143,6 @@ def preencher_nulos_da_coluna(df: pd.DataFrame, coluna: str, valor) -> pd.DataFr
 
     Dica: df_novo = df.copy(); df_novo[coluna] = df_novo[coluna].fillna(valor).
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao preencher_nulos_da_coluna ainda nao implementada (aula 2)")
+    df_novo = df.copy()
+    df_novo[coluna] = df_novo[coluna].fillna(valor)
+    return df_novo
