@@ -27,8 +27,7 @@ def criar_series_simples(valores: list, indices: list) -> pd.Series:
 
     Dica: pd.Series(data=..., index=...)
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao criar_series_simples ainda nao implementada (aula 1)")
+    return pd.Series(data=valores, index=indices)
 
 
 def criar_dataframe_de_dict(dados: dict) -> pd.DataFrame:
@@ -40,8 +39,7 @@ def criar_dataframe_de_dict(dados: dict) -> pd.DataFrame:
       criar_dataframe_de_dict({'nome': ['Ana', 'Bob'], 'idade': [20, 25]})
       -> DataFrame com colunas 'nome' e 'idade'
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao criar_dataframe_de_dict ainda nao implementada (aula 1)")
+    return pd.DataFrame(dados)
 
 
 def obter_dimensoes(df: pd.DataFrame) -> tuple:
@@ -50,8 +48,7 @@ def obter_dimensoes(df: pd.DataFrame) -> tuple:
 
     Dica: o atributo .shape ja retorna uma tupla pronta.
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao obter_dimensoes ainda nao implementada (aula 1)")
+    return df.shape
 
 
 def renomear_colunas(df: pd.DataFrame, mapeamento: dict) -> pd.DataFrame:
@@ -67,8 +64,7 @@ def renomear_colunas(df: pd.DataFrame, mapeamento: dict) -> pd.DataFrame:
 
     Dica: df.rename(columns=mapeamento) ja retorna um novo df.
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao renomear_colunas ainda nao implementada (aula 1)")
+    return df.rename(columns=mapeamento)
 
 
 def definir_indice(df: pd.DataFrame, coluna: str) -> pd.DataFrame:
@@ -81,8 +77,7 @@ def definir_indice(df: pd.DataFrame, coluna: str) -> pd.DataFrame:
 
     Dica: df.set_index(coluna)
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao definir_indice ainda nao implementada (aula 1)")
+    return df.set_index(coluna)
 
 
 def tipos_das_colunas(df: pd.DataFrame) -> pd.Series:
@@ -92,5 +87,4 @@ def tipos_das_colunas(df: pd.DataFrame) -> pd.Series:
 
     Dica: o atributo .dtypes ja retorna isso.
     """
-    # TODO: implemente
-    raise NotImplementedError("Funcao tipos_das_colunas ainda nao implementada (aula 1)")
+    return df.dtypes.astype(str)

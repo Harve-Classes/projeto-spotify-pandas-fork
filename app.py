@@ -63,6 +63,8 @@ if erro_carga:
 
 st.success(f"Base carregada: {df.shape[0]} musicas, {df.shape[1]} colunas")
 
+# st.dataframe(df)
+
 # ------------------------------------------------------------------
 # Abas - uma por aula
 # ------------------------------------------------------------------

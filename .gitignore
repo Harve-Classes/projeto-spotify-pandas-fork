@@ -8,3 +8,7 @@ gabarito/
 *.egg-info/
 .ipynb_checkpoints/
 notebooks/eda_spotify.ipynb
+
+# Download files
+saida.csv
+saida.xlsx
