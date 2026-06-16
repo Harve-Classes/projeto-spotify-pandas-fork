@@ -78,18 +78,20 @@ def juntar_com_info_artistas(df_spotify: pd.DataFrame, df_info: pd.DataFrame) ->
     No df_spotify a coluna do artista e 'artist(s)_name'; no df_info e 'artist_name'.
     Use how='left' para nao perder musicas.
     """
-    return df_spotify.merge(
-        df_info,
+    df_mergeado = df_spotify.merge(
+        right=df_info,
         left_on='artist(s)_name',
         right_on='artist_name',
         how='left'
     )
 
+    return df_mergeado
 
 def unir_novos_lancamentos(df_atual: pd.DataFrame, df_novos: pd.DataFrame) -> pd.DataFrame:
     """
     Concatena os dois DataFrames (linhas) e remove duplicatas.
     """
+    return pd.concat([df_atual, df_novos], axis=0).drop_duplicates()
 
     df_unido = pd.concat([df_atual, df_novos], axis=0)
     return df_unido.drop_duplicates()
@@ -99,7 +101,6 @@ def salvar_resultado(df: pd.DataFrame, caminho: str) -> None:
     Salva o DataFrame em CSV no caminho informado, sem indice e encoding utf-8.
     """
     df.to_csv(caminho, index=False, encoding='utf-8')
-
 
 def grafico_dispersao_energia_dancabilidade(df: pd.DataFrame):
     """
@@ -166,5 +167,5 @@ def preparar_csv_para_download(df: pd.DataFrame) -> bytes:
       st.download_button("Baixar", bytes_csv, "dados.csv", "text/csv")
     """
     csv_str = df.to_csv(index=False)
-    print(csv_str[:200])  # Debug: mostrar os primeiros caracteres do CSV
+    print(csv_str[:800])  # Debug: mostrar os primeiros caracteres do CSV
     return csv_str.encode('utf-8')
